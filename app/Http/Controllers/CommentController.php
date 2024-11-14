@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Comment;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, $post_id)
+    public function store(Request $request, $post_id): RedirectResponse
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('message', 'You need to be logged in to comment!');
         }
 
         $validated = $request->validate([
@@ -27,10 +28,10 @@ class CommentController extends Controller
         $comment->post_id = $post->id;
         $comment->save();
 
-        return redirect()->route('posts.show', $post->id);
+        return redirect()->route('posts.show', $post->id)->with('message', 'Comment added!');
     }
 
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         $comment = Comment::findOrFail($id);
 
@@ -40,6 +41,6 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return back();
+        return back()->with('message', 'Comment deleted!');
     }
 }

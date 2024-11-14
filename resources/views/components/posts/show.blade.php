@@ -4,7 +4,29 @@
     <div class="">
         <div class="mb-6">
             <div class="mb-2">
-                <h1 class="text-3xl font-bold">{{ $post->title }}</h1>
+                <div class="flex justify-between items-center">
+                    <div class="flex">
+                        <h1 class="text-3xl font-bold me-2">{{ $post->title }}</h1>
+
+                        <div class="items-center flex">
+                            @foreach ($categories as $category)
+                                <p class="me-2 bg-red-400 text-white px-3 py-1.5 rounded-md opacity-60">{{ $category }}
+                                </p>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        @if (Auth::id() == $post->user_id)
+                            <div class="flex">
+                                @include('components.main.deletePost', ['id' => $post->id])
+                                <a href="{{ route('posts.edit', $post->id) }}" class="me-1">
+                                    <x-tabler-pencil-cog class="text-blue-500" />
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
                 <p>{{ $post->content }}</p>
             </div>
             <div class="flex justify-between text-slate-500">
@@ -16,7 +38,7 @@
         <div class="">
             <h2 class="text-xl font-bold">Comment sections</h2>
 
-            @include('components.posts.createComment', ['post_id' => $post->id, ])
+            @include('components.posts.createComment', ['post_id' => $post->id])
 
             <div class="mb-5">
                 @foreach ($comments as $comment)
