@@ -9,7 +9,7 @@ class MainPageController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Post::query()->orderBy('id', 'desc');
+        $query = Post::with(['user', 'categories'])->orderBy('id', 'desc');
 
         if ($search = $request->input('search')) {
             $query->where('title', 'like', "%{$search}%")

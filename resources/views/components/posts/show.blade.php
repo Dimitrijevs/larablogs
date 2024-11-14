@@ -5,16 +5,7 @@
         <div class="mb-6">
             <div class="mb-2">
                 <div class="flex justify-between items-center">
-                    <div class="flex">
-                        <h1 class="text-3xl font-bold me-2">{{ $post->title }}</h1>
-
-                        <div class="items-center flex">
-                            @foreach ($categories as $category)
-                                <p class="me-2 bg-red-400 text-white px-3 py-1.5 rounded-md opacity-60">{{ $category }}
-                                </p>
-                            @endforeach
-                        </div>
-                    </div>
+                    <h1 class="text-3xl font-bold me-2">{{ $post->title }}</h1>
 
                     <div class="flex justify-between">
                         @if (Auth::id() == $post->user_id)
@@ -28,6 +19,11 @@
                     </div>
                 </div>
                 <p>{{ $post->content }}</p>
+                <div class="items-center flex gap-2 flex-wrap justify-end my-2">
+                    @foreach ($categories as $category)
+                        @include('components.shared.category', ['category' => $category])
+                    @endforeach
+                </div>
             </div>
             <div class="flex justify-between text-slate-500">
                 <span class="text-sm">Posted by {{ $post->user->name }}</span>
@@ -36,7 +32,14 @@
         </div>
 
         <div class="">
-            <h2 class="text-xl font-bold">Comment sections</h2>
+            <div class="flex justify-between">
+                <h2 class="text-xl font-bold">Comment sections</h2>
+
+                <div class="flex items-center text-slate-600">
+                    <x-tabler-message class="me-1"/>
+                    <p>{{ $commentsCount }}</p>
+                </div>
+            </div>
 
             @include('components.posts.createComment', ['post_id' => $post->id])
 

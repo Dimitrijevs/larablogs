@@ -50,7 +50,8 @@ class PostController extends Controller
     {
         $categories = $post->categories->pluck('name');
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
-        return view('components.posts.show', ['post' => $post, 'categories' => $categories, 'comments' => $comments]);
+        $commentsCount = $comments->count();
+        return view('components.posts.show', ['post' => $post, 'categories' => $categories, 'comments' => $comments, 'commentsCount' => $commentsCount]);
     }
 
     public function edit(Post $post): View|RedirectResponse
