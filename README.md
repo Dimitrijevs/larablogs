@@ -1,4 +1,4 @@
-1. Clone the repository: git clone [<repository-url>](https://github.com/Dimitrijevs/larablogs.git)
+1. Clone the repository: git clone https://github.com/Dimitrijevs/larablogs.git
 
 2. Navigate into the project directory: cd larablogs
 
