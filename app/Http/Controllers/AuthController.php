@@ -23,7 +23,7 @@ class AuthController extends Controller
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
  
-            return redirect()->intended('/');
+            return redirect()->intended('/')->with('message', 'You are logged in!');
         }
 
         return redirect()->route('login')->withErrors(['email' => 'Invalid email or password']);
@@ -48,13 +48,13 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('main');
+        return redirect()->route('main')->with('message', 'You are registered and logged in!');
     }
 
     public function logout()
     {
         Auth::logout();
 
-        return redirect()->route('main');
+        return redirect()->route('main')->with('message', 'You are logged out!');
     }
 }

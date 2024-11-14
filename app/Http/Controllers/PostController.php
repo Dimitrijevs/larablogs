@@ -13,7 +13,7 @@ class PostController extends Controller
     public function create()
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'You need to be logged in to create a post!');
         }
 
         $categories = Category::all();
@@ -31,7 +31,7 @@ class PostController extends Controller
         ]);
 
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'You need to be logged in to create a post!');
         }
 
         $post = new Post();
@@ -42,7 +42,7 @@ class PostController extends Controller
 
         $post->categories()->attach($validated['categories']);
 
-        return redirect()->route('main');
+        return redirect()->route('main')->with('message', 'Post created successfully!');
     }
 
     public function show(Post $post)
@@ -55,11 +55,11 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if (!Auth::user()) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'You need to be logged in to edit a post!');
         }
 
         if (Auth::id() !== $post->user_id) {
-            return redirect()->route('main');
+            return redirect()->route('main')->with('error', 'You can only edit your own posts!');
         }
 
         $categories = Category::all();
@@ -77,13 +77,13 @@ class PostController extends Controller
         ]);
 
         if (!Auth::user()) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'You need to be logged in to edit a post!');
         }
 
         $post = Post::find($post);
 
         if (Auth::id() !== $post->user_id) {
-            return redirect()->route('main');
+            return redirect()->route('main')->with('error', 'You can only edit your own posts!');
         }
 
         $post->categories()->sync($validated['categories']);
@@ -92,21 +92,21 @@ class PostController extends Controller
         $post->content = $validated['content'];
         $post->save();
 
-        return redirect()->route('posts.show', ['post' => $post]);
+        return redirect()->route('posts.show', ['post' => $post])->with('message', 'Post updated successfully!');
     }
 
     public function destroy(Post $post): RedirectResponse
     {
         if (!Auth::user()) {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'You need to be logged in to delete a post!');
         }
 
         if (Auth::id() !== $post->user_id) {
-            return redirect()->route('main');
+            return redirect()->route('main')->with('error', 'You can only delete your own posts!');
         }
 
         $post->delete();
 
-        return redirect()->route('main');
+        return redirect()->route('main')->with('message', 'Post deleted successfully!');
     }
 }
