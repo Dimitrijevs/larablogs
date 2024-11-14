@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
         // Check if the user is authenticated
         if (Auth::check()) {
             // Redirect authenticated users to the intended route, e.g., dashboard or home
-            return redirect()->route('main');
+            return redirect()->route('main')->with('error', 'You are already logged in!');
         }
 
         // Allow access if not authenticated
