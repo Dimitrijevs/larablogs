@@ -3,6 +3,6 @@
     @method('DELETE')
     
     <button type="submit">
-        <x-tabler-trash class="text-red-400" />
+        <x-tabler-trash class="text-red-500" />
     </button>
 </form>
