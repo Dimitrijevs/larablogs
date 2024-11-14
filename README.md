@@ -34,3 +34,7 @@ Replace `your_database_name`, `your_database_user`, and `your_database_password`
 11. Start the development server: php artisan serve
 
 12. Open the project in your browser: open in a browser: http://localhost:8000
+
+13. Login: email - user1gmail.com, password - password
+
+14. Enjoy!

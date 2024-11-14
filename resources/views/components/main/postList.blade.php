@@ -12,19 +12,25 @@
                                     <h2 class="font-semibold text-xl">{{ Str::limit($post->title, 12) }}</h2>
                                 </div>
                                 <p class="text-slate-600">{{ Str::limit($post->content, 80) }}</p>
+                                <div class="flex flex-wrap gap-2 my-1">
+                                    @foreach ($post->categories as $category)
+                                        @include('components.shared.category', ['category' => $category->name])
+                                    @endforeach
+                                </div>
                             </a>
                         </div>
                         <div class="flex justify-between">
                             <p class="text-slate-600 text-end">{{ $post->created_at->format('d.m.Y.') }}</p>
-                            @if (Auth::id() == $post->user_id)
-                                <div class="flex">
-                                    @include('components.main.deletePost', ['id' => $post->id])
-                                    <a href="{{ route('posts.edit', $post->id) }}" class="me-1">
-                                        <x-tabler-pencil-cog class="text-blue-400" />
-                                    </a>
-                                </div>
-                            @endif
+                            <p class="text-slate-600 text-end">{{ $post->user->name }}</p>
                         </div>
+                        @if (Auth::id() == $post->user_id)
+                            <div class="flex justify-end mt-2">
+                                @include('components.main.deletePost', ['id' => $post->id])
+                                <a href="{{ route('posts.edit', $post->id) }}">
+                                    <x-tabler-pencil-cog class="text-blue-400" />
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endforeach
