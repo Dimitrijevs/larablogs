@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
-    public function create()
+    public function create(): View|RedirectResponse
     {
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'You need to be logged in to create a post!');
@@ -45,14 +46,14 @@ class PostController extends Controller
         return redirect()->route('main')->with('message', 'Post created successfully!');
     }
 
-    public function show(Post $post)
+    public function show(Post $post): View
     {
         $categories = $post->categories;
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
         return view('components.posts.show', ['post' => $post, 'categories' => $categories, 'comments' => $comments]);
     }
 
-    public function edit(Post $post)
+    public function edit(Post $post): View|RedirectResponse
     {
         if (!Auth::user()) {
             return redirect()->route('login')->with('error', 'You need to be logged in to edit a post!');
@@ -67,7 +68,7 @@ class PostController extends Controller
         return view('components.posts.edit', ['post' => $post, 'categories' => $categories]);
     }
 
-    public function update(Request $request, $post)
+    public function update(Request $request, $post): RedirectResponse
     {
         $validated = $request->validate([
             'title' => 'required|min:3|max:255',

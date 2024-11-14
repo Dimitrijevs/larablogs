@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    public function showLogin(): View
     {
         return view('components.auth.login');
     }
 
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'email' => 'required|email',
@@ -29,12 +32,12 @@ class AuthController extends Controller
         return redirect()->route('login')->withErrors(['email' => 'Invalid email or password']);
     }
 
-    public function showRegister()
+    public function showRegister(): View
     {
         return view('components.auth.register');
     }
 
-    public function register(Request $request)
+    public function register(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'name' => 'required|min:3|max:255|regex:/^[\p{L}0-9\s]+$/u',
@@ -51,7 +54,7 @@ class AuthController extends Controller
         return redirect()->route('main')->with('message', 'You are registered and logged in!');
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
     {
         Auth::logout();
 
