@@ -17,11 +17,13 @@
             </li>
         @else
             <li class="">
-                <a href="{{ route('logout') }}"
-                    class="hover:font-bold duration-300 flex">
-                    <x-tabler-login-2 class="me-1"/>
-                    Logout
-                </a>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="hover:font-bold duration-300 flex items-center">
+                        <x-tabler-login-2 class="me-1" />
+                        Logout
+                    </button>
+                </form>
             </li>
         @endif
     </ul>
